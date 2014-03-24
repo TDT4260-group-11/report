@@ -51,24 +51,8 @@ Here we mention related work. Do you want cake for your relatives?
 \end{figure}
 
 \break
-Figure \ref{fig:DCTable} shows the Delta Correlation Prediction table used by the Prefetcher. As can be seen, the a row in the table contains fields for the PC, last address, last prefecth, deltas 1 to n, and delta pointer. PC stores the address to the load instruction, and works as index in the table. The Last Address stores the missed address when there is a miss in the cache. The delta fields stores the address difference, or the deltas, for each time this instruction is called. By using the pattern in these deltas, one may predict the next loads, and thus issue prefetches based on the pattern. An example would be the deltas 1, 2, 4, 1, 2, 4, ..., where 1, 2, 4, is repeated, and prefetches on addresses with these deltas in between may be issued. 
-\break Last prefetch contains the address of the last issued prefetch.
+Figure \ref{fig:DCTable} shows the Delta Correlation Prediction table used by the Prefetcher. As can be seen, the a row in the table contains fields for the PC, last address, last prefecth, deltas 1 to n, and delta pointer. PC stores the address to the load instruction, and works as index in the table. The Last Address stores the missed address when there is a miss in the cache. The delta fields stores the address difference, or the deltas, for each time this instruction is called. By using the pattern in these deltas, one may predict the next loads, and thus issue prefetches based on the pattern. An example would be the deltas 1, 2, 4, 1, 2, 4, ..., where 1, 2, 4, is repeated, and prefetches on addresses with these deltas in between may be issued. Last prefetch contains the address of the last issued prefetch. The Delta Pointer points to the head (first Delta field) in the row, since the delta fields are used as circular buffer.
 \todo{There is more to be written, and current contents is... a bit poorly written}
-\break 
-\todo{ Describe the pretecher, namely the different parts of the table in the figure. Have added places to write.}
-\break
-
-PC:
-\break
-Last Address:
-\break
-Last Prefetch:
-\break
-Delta 1:
-\break
-Deltan:
-\break
-Delta Pointer:
 
 \begin{figure}[h!]
   \centering
@@ -76,6 +60,10 @@ Delta Pointer:
   \caption{Delta Correlation Example}
   \label{fig:DCExample}
 \end{figure}
+
+\break
+Figure \ref{fig:DCExample} shows an example where the beginning load address is 10, with the deltas 1,9 in repeating pattern, and the addresses are 11, 20, 21, 30. 
+\todo{ Write how this will work in the DCPT table}.
 
 
 Here we describe the cake...uh, I mean the pretecher. Hey, Vance! Can you prefetch that cake?
