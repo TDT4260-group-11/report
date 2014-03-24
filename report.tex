@@ -3,6 +3,7 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx} 
 
 \newcommand\TODO[1]{\textcolor{red}{TODO:#1}}
 \newcommand\todo[1]{\TODO{#1}}
@@ -41,6 +42,20 @@ Here we mention related work. Do you want cake for your relatives?
 \section{Prefetcher Description}
 \todo{ Describe how the final prefetcher works. I suggest adding a figure. Maybe briefly mention other attempteps while if we have space?}
 \break
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/DCTable}
+  \caption{Delta Correlation Table}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
+  \caption{Delta Correlation Example}
+\end{figure}
+
+
 Here we describe the cake...uh, I mean the pretecher. Hey, Vance! Can you prefetch that cake?
 \section{Methodology}
 \todo{ Mention the framework. Explain PFJudge. Maybe or maybe not mention C++?}
