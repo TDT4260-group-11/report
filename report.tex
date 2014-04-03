@@ -98,12 +98,11 @@ The following subsections will describe the differences between these:
   \label{fig:CDC}
 \end{figure}
 
-\todo{Rewrite this intro}
-Fig.~\ref{fig:CDC} shows how CZone Delta Correlation works. 
-The memory is divided into different concentration zones (CZones). 
-The reason behind this is that memory load patterns from different areas of the memory may be different from each other, and the idea is to calculate correct prefetch based on the CZones of the load addresses.
-The contents of the index table are based on the different CZones, and the pointer belonging to a CZone points to the latest address from that CZone that is stored in the GHB.
-Fig.~\ref{fig:CDC} shows an example of a CZone Delta Correlation Prefetcher that implements GHB and Delta Correlation. 
+The concept of concentration zones (CZones) is based on the assumption that access within a data structure is fairly regular and that similar data structures lie within close proximity of each other in memory.
+It works by dividing the memory into different regions, each assigned its own tag (most significant bits of the memory address).
+Memory access patterns are then traced within these regions using Delta Correlation to determine prefetch candidates.
+
+Fig.~\ref{fig:CDC} shows an example of a CZone Delta Correlation Prefetcher that is implemented using GHB. 
 Tag C from the index table points to address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. 
 The first two address deltas (1 and 2) from the linked list is added to the Correlation Key Register (2 and 1 in the example). 
 The list is traversed, and the Correlation Comparison Register is continuously updated with the two latest deltas. 
