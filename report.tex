@@ -49,7 +49,7 @@ Figure \ref{fig:delta_stream} shows a repeating pattern that can be captured by 
 
 \begin{figure}[!ht]
   \centering
-      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
+      \includegraphics[width=0.35\textwidth]{Figures/DCExample}
   \caption{Example Delta Stream (Reprinted from \protect{\cite{dcpt}})}
   \label{fig:delta_stream}
 \end{figure}
@@ -70,8 +70,8 @@ In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}
 
 \begin{figure}[!ht]
   \centering
-      \includegraphics[width=0.25\textwidth]{Figures/ghb}
-  \caption{Global History Buffer (Reprinted from \protect{\cite{ghb}})}
+      \includegraphics[width=0.3\textwidth]{Figures/ghb}
+  \caption{Global History Buffer Structure (Reprinted from \protect{\cite{ghb}})}
   \label{fig:ghb}
 \end{figure}
 
@@ -88,10 +88,11 @@ The following subsections will describe the differences between these:
 \begin{figure}[!ht]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/CDC}
-  \caption{CZone Delta Correlation (Reprinted from \protect\cite{acdc}})
+  \caption{CZone Delta Correlation (Reprinted from \protect{\cite{acdc}})}
   \label{fig:CDC}
 \end{figure}
 
+\todo{Rewrite this intro}
 Figure \ref{fig:CDC} shows how CZone Delta Correlation works. 
 The memory is divided into different concentration zones (CZones). 
 The reason behind this is that memory load patterns from different areas of the memory may be different from each other, and the idea is to calculate correct prefetch based on the CZones of the load addresses.
