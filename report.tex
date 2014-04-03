@@ -80,14 +80,17 @@ In the example figure, address C09 from CZone C is the head, and is linked to C0
 The pointers from the Index Table points to these heads.
 The delta between the different addresses are calculated, and the first two from the linked list is added to the Correlation Key Register (2 and 1 in the example). 
 The list is traversed, and the Correlation Comparison Register is continiously uptdated with the two latest deltas. 
-Whenever there is a hit between the Comparison Registers and the Key Registers, and the distance between the current deltas and first two deltas in the linked list are not too great (max 4)\todo{ Per, hva brukte du?} a prefetch occurs. 
-All deltas in between are added to a Delta Buffer, and they are used to calculate addresses for prefetch, using the two first addresses in the linked list and the contents in the delta buffer. \todo{ Correct? }. 
-The point with using CZones is that memory load patterns from different areas of the memory may be different of each other. 
+Whenever there is a hit between the Comparison Registers and the Key Registers, and the distance between the current deltas and first two deltas in the linked list are not too great (max 2 in our implementation) a prefetch occurs. 
+All deltas in between are added to a Delta Buffer, and they are used to calculate addresses for prefetch, using the two first addresses in the linked list and the contents in the delta buffer. 
+The point with using CZones is that memory load patterns from different areas of the memory may be different of each other, and the idea is to calculate correct prefetch for the different memory loading patterns of the CZones.
 
 \todo{ Figure \ref{fig:CDC} is picked from the internet. Add reference? }
 
 \subsection{Adaptive CZone Delta Correlation}
-
+The Adaptive CZone Delta Correlation Prefetcher is a more advanced version of the prefetcher described in previous subchapter.
+While the non-adaptive version prefetches a static number of data blocks, this one dynamically calculates how many data blocks to prefetch.
+The prefetcher increases or decreases the number of blocks to be prefetched by 1, after evaluating the hit rate.
+The hit rate is compared with the hit rate of the previous setting, and the prefetcher increases or decreases the number of blocks based on increased or decreased performance. 
 
 \subsection{Program Counter Delta Corelation}
 \todo{write something}
