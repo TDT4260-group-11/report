@@ -64,7 +64,7 @@ Figure \ref{fig:delta_stream} shows a repeating pattern that can be captured by 
 \subsection{Global History Buffer}
 
 History based prefetchers need to store access patterns efficient data structure that enables quick access.
-One such data structure is the Global History Buffer (GHB) \cite{ghb}.
+One such data structure is the Global History Buffer (GHB) \cite{ghb} as shown in figure \ref{fig:ghb}.
 GHB is an $n$-entry First-In, First-Out (FIFO) queue implemented as a circular buffer.
 It stores the $n$ most recent L1 cache misses in entries that contain the miss address and a link pointer.
 The link pointer is used to chain entries together into time-ordered linked lists that holds the significant access patterns.
@@ -73,8 +73,16 @@ It maps some key to the most recent element of a linked list.
 The IT is based on a FIFO queue like GHB, but significantly smaller as each entry has to be evaluated for each cache miss to look up a matching key.
 The key can be based on any cache miss information, and depending on it a wide variety of history based prefetch methods can be implemented.
 In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}, one using GHB gave the best performance.
-\todo{figure}
 \todo{less chance for data going stale}
+
+\begin{figure}[!ht]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/ghb}
+  \caption{Global History Buffer Structure (Reprinted from \protect\cite{ghb}})
+  \label{fig:ghb}
+\end{figure}
+
+
 
 \section{Prefetcher Description}
 
@@ -84,7 +92,7 @@ The following subsections will describe the differences between these:
 
 \subsection{CZone Delta Correlation}
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/CDC}
   \caption{CZone Delta Correlation (Reprinted from \protect\cite{acdc}})
