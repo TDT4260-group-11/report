@@ -216,17 +216,32 @@ The results from the benchmark runs are shown in Fig. \ref{fig:results}.
 
 \section{Discussion}
 
-\todo{ Not exactly sure, just say it works better? Compare with other prefetcher IF we chose to describe them. }
-All of the explored prefetching techniques resulted in improved performance in the tests, compared to no prefetching.
-There are still differences, and none of the prefetching techniques is superior to the others in every test.
-Overall the DCPT is scoring best on the test with APCDC on a close second.
-Which of them would be best suited for a real life appliction, largely depend on the characteristics of the application.
+The first observation that can be made is that Delta Correlation prefetchers are generally more performant than simply using no prefetcher at all.
+The exception to this is the CPC prefetcher, which is twice as slow as the other Delta Correlation prefetchers tested in the \texttt{ammp} test.
+Indeed, it is even considerably worse than using no prefetcher at all.
+The reason for this abysmal behavior can be seen in the accuracy statistics for the same test.
+Where the other prefetchers have scored around 0.8 accuracy, which is quite good, CPC has scored less than one hundredth of that.
+To have a prefetcher which is vulnerable to extremely poor performance in some secenarios is a bad idea, as it is at best inefficient, and at worst downright dangerous.
+CPC is the only one of the tested prefetchers that have exhibited this kind of behavior.
+
+Other than the extreme discrepancy in the CPC \texttt{amms} test, there are not a lot of big differences.
+Some tests favor one pretching scheme, while other tests favor another.
+Overall, DCPT scores best on average with APCDC a close second.
+Which one should be chosen over the other for use in a given real life application, however, largely depends on the characteristics of the application.
 
 \input{discussion_graph.tex}
 
 \section{Conclusion}
 
 \todo{ Mention what could have been done better or different? Future ideas? }
+
+In conclusion, while Delta Correlation based prefetching approaches are promising in general, there are some significant differences between the prefetching schemes tested.
+The differences, however, are not uniformly in favor of a single prefetching scheme.
+The benchmarks rather favor different schemes for different tests.
+
+Looking at the average speedup, though, DCPT emerges as the most performant scheme, while CPC is the least performant scheme.
+
+
 
 \bibliography{bibliography}
 \bibliographystyle{plain}
