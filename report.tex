@@ -58,7 +58,7 @@ Fig.~\ref{fig:delta_stream} shows a repeating pattern that can be captured by De
 
 \subsection{Global History Buffer}
 
-History based prefetchers need to store access patterns efficient data structure that enables quick access.
+History based prefetchers need to store access patterns in efficient data structures that enable quick access.
 One such data structure is the Global History Buffer (GHB) \cite{ghb} which is shown in Fig.~\ref{fig:ghb}.
 GHB is an $n$-entry First-In, First-Out (FIFO) queue implemented as a circular buffer.
 It stores the $n$ most recent L1 cache misses in entries that contain the miss address and a link pointer.
