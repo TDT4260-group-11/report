@@ -142,6 +142,9 @@ The Delta Pointer points to the head (first Delta field) in the row, since the d
 
 \section{Methodology}
 
+In order to measure prefetcher performance, a test bench had to be made.
+Software implementations of the different prefetcher behaviors were implemented nd simulated in a simulation framework.
+
 \subsection{Simulation Framework}
 
 A modified version of M5, the open-source TCP/IP network simulator\cite{M5paper}, has been used to simulate a hierarchical memory environment for evaulation of the different prefetcher implementations.
@@ -162,10 +165,34 @@ The memory bus runs at 400MHz, is 64 bits wide, and has a latency of 30ns.~\cite
 \end{quote}
 
 To simulate a prefetcher with the modified M5 framework, the bahavior must be implemented as an M5 prefetcher module in C++ and plugged into the system.
+To emulate realistic conditions for a hardware prefetcher implementation, a hard memory usage limit of 8KB was imposed on the software prefetchers.
+That means that a prefetcher may only allocate up to 8KB of memory to hold any eventual data structures.
+No further restrictions were imposed.
 
 \subsection{SPEC CPU2000}
 
-To measure the performances of the different prefetchers, the prefetchers are simulated and observed during runs against a subset of the SPEC CPU2000 benchmark suite.~\cite{http://dl.acm.org/citation.cfm?id=621510}
+To measure the performances of the different prefetchers, the prefetchers were simulated and observed during runs against a subset of the SPEC CPU2000 benchmark suite.~\cite{http://dl.acm.org/citation.cfm?id=621510}
+
+The benchmarks measure several key performance indicators:
+
+\subsubsection{Speedup}
+Speedup is the total execution speedup gained by using a given prefetcher compared to having no prefetcher at all.
+
+\subsubsection{IPC}
+IPC, or Instructions Per Cycle, measures how many instructions are executed per clock cycle of the processor.
+Since the simulated M5 architecture is superscalar, this number can be greater than 1.
+
+\subsubsection{Accuracy}
+Accuracy is a measure that shows how many prefetches were useful.
+
+\subsubsection{Coverage}
+\todo{what is coverage?}
+
+\subsubsection{Identified}
+\todo{what is identified?}
+
+\subsubsection{Issued}
+Issued is a measure that shows how many prefetches have been issued by the prefetcher in total.
 
 \subsection{PFJudge}
 
