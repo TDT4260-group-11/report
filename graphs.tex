@@ -1,0 +1,178 @@
+\pgfplotstableread{
+test_name        dcpt  apcdc cdc pcdc 
+{ammp}           1.478 1.501 1   1
+{applu}          1.088 1.077 1   1
+{apsi}           1.037 1.010 1   1
+{art110}         1.042 1.058 1   1
+{art470}         1.042 1.058 1   1
+{bzip2\_graphic} 1.145 1.067 1   1
+{bzip2\_program} 1.035 1.040 1   1
+{bzip2\_source}  1.004 1.006 1   1
+{galgel}         1.040 1.082 1   1
+{swim}           1.031 1.035 1   1
+{twolf}          0.992 0.991 1   1
+{wupwise}        1.226 1.238 1   1
+}\speeduptable
+
+\newcommand{\mgraph}[2]{
+\begin{tikzpicture}[scale=0.5]
+\begin{axis}[
+  ybar, bar width=1pt,ymin=0,
+  xmin=0.5,xmax=12.5, xtick=data,
+  axis y discontinuity=crunch,
+  ymin=0.75,
+  xticklabels from table={#1}{test_name},
+  xticklabel style={rotate=45,anchor=north east,inner sep=0mm},
+  ylabel={\Large #2}, ylabel near ticks]
+  \addplot table [x expr=\coordindex+1,y=dcpt] {#1};
+  \addlegendentry{DCPT};
+  \addplot table [x expr=\coordindex+1,y=apcdc] {#1};
+  \addlegendentry{APCDC};
+  \addplot table [x expr=\coordindex+1,y=cdc] {#1};
+  \addlegendentry{CDC};
+  \addplot table [x expr=\coordindex+1,y=pcdc] {#1};
+  \addlegendentry{PCDC};
+\end{axis}
+\end{tikzpicture}
+}
+
+\newcommand{\mtable}[2]{
+\centering
+\resizebox{.81\columnwidth}{!}{
+\pgfplotstabletypesetfile[
+columns={test_name, dcpt, apcdc, cdc, pcdc},
+every even row/.style={before row={\rowcolor{blue!15}}},
+every head row/.style={
+  before row={\toprule 
+    \multirow{2}{*}{\bfseries Test Name} & \multicolumn{4}{c}{\bfseries #2}\\ \cmidrule{2-5}},
+  after row=\midrule},
+every last row/.style={after row=\bottomrule},
+every row/.style={font=\tiny},
+columns/test_name/.style={
+  column name={},
+  column type={l},
+  string type},
+columns/dcpt/.style={
+  column name={DCPT},
+  },
+columns/apcdc/.style={
+  column name={APCDC},
+  },
+columns/cdc/.style={
+  column name={CDC},
+  },
+columns/pcdc/.style={
+  column name={PCDC},
+  },
+    ] 
+  {#1}
+}
+}
+
+\pgfplotstableread{
+test_name        dcpt  apcdc cdc pcdc 
+{ammp}           1.478 1.501 1   1
+{applu}          1.088 1.077 1   1
+{apsi}           1.037 1.010 1   1
+{art110}         1.042 1.058 1   1
+{art470}         1.042 1.058 1   1
+{bzip2\_graphic} 1.145 1.067 1   1
+{bzip2\_program} 1.035 1.040 1   1
+{bzip2\_source}  1.004 1.006 1   1
+{galgel}         1.040 1.082 1   1
+{swim}           1.031 1.035 1   1
+{twolf}          0.992 0.991 1   1
+{wupwise}        1.226 1.238 1   1
+}\speeduptable
+\pgfplotstableread{
+test_name        dcpt  apcdc cdc pcdc 
+{ammp}           1     1     1   1
+{applu}          1     1     1   1
+{apsi}           1     1     1   1
+{art110}         1     1     1   1
+{art470}         1     1     1   1
+{bzip2\_graphic} 1     1     1   1
+{bzip2\_program} 1     1     1   1
+{bzip2\_source}  1     1     1   1
+{galgel}         1     1     1   1
+{swim}           1     1     1   1
+{twolf}          1     1     1   1
+{wupwise}        1     1     1   1
+}\ipctable
+\pgfplotstableread{
+test_name        dcpt  apcdc cdc pcdc 
+{ammp}           1     1     1   1
+{applu}          1     1     1   1
+{apsi}           1     1     1   1
+{art110}         1     1     1   1
+{art470}         1     1     1   1
+{bzip2\_graphic} 1     1     1   1
+{bzip2\_program} 1     1     1   1
+{bzip2\_source}  1     1     1   1
+{galgel}         1     1     1   1
+{swim}           1     1     1   1
+{twolf}          1     1     1   1
+{wupwise}        1     1     1   1
+}\accuracytable
+\pgfplotstableread{
+test_name        dcpt  apcdc cdc pcdc 
+{ammp}           1     1     1   1
+{applu}          1     1     1   1
+{apsi}           1     1     1   1
+{art110}         1     1     1   1
+{art470}         1     1     1   1
+{bzip2\_graphic} 1     1     1   1
+{bzip2\_program} 1     1     1   1
+{bzip2\_source}  1     1     1   1
+{galgel}         1     1     1   1
+{swim}           1     1     1   1
+{twolf}          1     1     1   1
+{wupwise}        1     1     1   1
+}\coveragetable
+\pgfplotstableread{
+test_name        dcpt  apcdc cdc pcdc 
+{ammp}           1     1     1   1
+{applu}          1     1     1   1
+{apsi}           1     1     1   1
+{art110}         1     1     1   1
+{art470}         1     1     1   1
+{bzip2\_graphic} 1     1     1   1
+{bzip2\_program} 1     1     1   1
+{bzip2\_source}  1     1     1   1
+{galgel}         1     1     1   1
+{swim}           1     1     1   1
+{twolf}          1     1     1   1
+{wupwise}        1     1     1   1
+}\identifiedtable
+\pgfplotstableread{
+test_name        dcpt  apcdc cdc pcdc 
+{ammp}           1     1     1   1
+{applu}          1     1     1   1
+{apsi}           1     1     1   1
+{art110}         1     1     1   1
+{art470}         1     1     1   1
+{bzip2\_graphic} 1     1     1   1
+{bzip2\_program} 1     1     1   1
+{bzip2\_source}  1     1     1   1
+{galgel}         1     1     1   1
+{swim}           1     1     1   1
+{twolf}          1     1     1   1
+{wupwise}        1     1     1   1
+}\issuedtable
+
+\begin{figure*}
+\mgraph{\speeduptable}{Speedup}
+\mgraph{\ipctable}{IPC}
+\mgraph{\accuracytable}{Accuracy}
+\mgraph{\coveragetable}{Coverage}
+\mgraph{\identifiedtable}{Identified}
+\mgraph{\issuedtable}{Issued}
+\end{figure*}
+\newpage
+\mtable{\speeduptable}{Speedup}
+\mtable{\ipctable}{IPC}
+\mtable{\accuracytable}{Accuracy}
+\mtable{\coveragetable}{Coverage}
+\mtable{\identifiedtable}{Identified}
+\mtable{\issuedtable}{Issued}
+\newpage
