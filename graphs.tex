@@ -160,7 +160,8 @@ test_name        dcpt  apcdc cdc pcdc
 {wupwise}        1     1     1   1
 }\issuedtable
 
-\begin{figure*}
+\clearpage
+\begin{figure*}[H]
 \mgraph{\speeduptable}{Speedup}
 \mgraph{\ipctable}{IPC}
 \mgraph{\accuracytable}{Accuracy}
@@ -168,11 +169,12 @@ test_name        dcpt  apcdc cdc pcdc
 \mgraph{\identifiedtable}{Identified}
 \mgraph{\issuedtable}{Issued}
 \end{figure*}
-\newpage
+\begin{figure*}[H]
 \mtable{\speeduptable}{Speedup}
 \mtable{\ipctable}{IPC}
 \mtable{\accuracytable}{Accuracy}
 \mtable{\coveragetable}{Coverage}
 \mtable{\identifiedtable}{Identified}
 \mtable{\issuedtable}{Issued}
-\newpage
+\end{figure*}
+\clearpage
