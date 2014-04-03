@@ -48,7 +48,7 @@ Here we mention related work. Do you want cake for your relatives?
 
 \subsection{Global History Buffer}
 History based prefetchers need to store access patterns efficient data structure that enables quick access.
-One such data structure is the Global History Buffer (GHB).
+One such data structure is the Global History Buffer (GHB) \cite{ghb}.
 GHB is an $n$-entry First-In, First-Out (FIFO) queue implemented as a circular buffer.
 It stores the $n$ most recent L1 cache misses in entries that contain the miss address and a link pointer.
 The link pointer is used to chain entries together into time-ordered linked lists that holds the significant access patterns.
@@ -56,8 +56,7 @@ An Index Table (IT) is used to keep track of these lists.
 It maps some key to the most recent element of a linked list.
 The IT is based on a FIFO queue like GHB, but significantly smaller as each entry has to be evaluated for each cache miss to look up a matching key.
 The key can be based on any cache miss information, and depending on it a wide variety of history based prefetch methods can be implemented.
-In a comparison of different prefetch mechanisms by Péres et al., one using GHB gave the best performance.
-\todo{cite MicroLib: a case for the quantitative comparison of micro-architecture mechanisms}
+In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}, one using GHB gave the best performance.
 \todo{figure}
 
 \section{Prefetcher Description}
