@@ -19,8 +19,8 @@ test_name        dcpt  apcdc cdc pcdc
 \begin{axis}[
   ybar, bar width=1pt,ymin=0,
   xmin=0.5,xmax=12.5, xtick=data,
-  axis y discontinuity=crunch,
-  ymin=0.75,
+  %axis y discontinuity=crunch,
+  %ymin=0.75,
   xticklabels from table={#1}{test_name},
   xticklabel style={rotate=45,anchor=north east,inner sep=0mm},
   ylabel={\Large #2}, ylabel near ticks]
@@ -69,6 +69,7 @@ columns/pcdc/.style={
 }
 }
 
+
 \pgfplotstableread{
 test_name        dcpt  apcdc cdc pcdc 
 {ammp}           1.478 1.501 1   1
@@ -86,79 +87,80 @@ test_name        dcpt  apcdc cdc pcdc
 }\speeduptable
 \pgfplotstableread{
 test_name        dcpt  apcdc cdc pcdc 
-{ammp}           1     1     1   1
-{applu}          1     1     1   1
-{apsi}           1     1     1   1
-{art110}         1     1     1   1
-{art470}         1     1     1   1
-{bzip2\_graphic} 1     1     1   1
-{bzip2\_program} 1     1     1   1
-{bzip2\_source}  1     1     1   1
-{galgel}         1     1     1   1
-{swim}           1     1     1   1
-{twolf}          1     1     1   1
-{wupwise}        1     1     1   1
+{ammp}           0.122 0.124 1   1
+{applu}          0.561 0.556 1   1
+{apsi}           1.542 1.502 1   1
+{art110}         0.127 0.129 1   1
+{art470}         0.127 0.129 1   1
+{bzip2\_graphic} 1.508 1.405 1   1
+{bzip2\_program} 1.536 1.543 1   1
+{bzip2\_source}  1.717 1.720 1   1
+{galgel}         0.462 0.481 1   1
+{swim}           0.705 0.708 1   1
+{twolf}          0.421 0.420 1   1
+{wupwise}        0.918 0.926 1   1
 }\ipctable
 \pgfplotstableread{
 test_name        dcpt  apcdc cdc pcdc 
-{ammp}           1     1     1   1
-{applu}          1     1     1   1
-{apsi}           1     1     1   1
-{art110}         1     1     1   1
-{art470}         1     1     1   1
-{bzip2\_graphic} 1     1     1   1
-{bzip2\_program} 1     1     1   1
-{bzip2\_source}  1     1     1   1
-{galgel}         1     1     1   1
-{swim}           1     1     1   1
-{twolf}          1     1     1   1
-{wupwise}        1     1     1   1
+{ammp}           0.813 0.774 1   1
+{applu}          0.636 0.525 1   1
+{apsi}           0.403 0.355 1   1
+{art110}         0.801 0.795 1   1
+{art470}         0.801 0.795 1   1
+{bzip2\_graphic} 0.896 0.788 1   1
+{bzip2\_program} 0.807 0.574 1   1
+{bzip2\_source}  0.782 0.702 1   1
+{galgel}         0.655 0.739 1   1
+{swim}           0.582 0.554 1   1
+{twolf}          0.323 0.287 1   1
+{wupwise}        0.667 0.667 1   1
 }\accuracytable
 \pgfplotstableread{
 test_name        dcpt  apcdc cdc pcdc 
-{ammp}           1     1     1   1
-{applu}          1     1     1   1
-{apsi}           1     1     1   1
-{art110}         1     1     1   1
-{art470}         1     1     1   1
-{bzip2\_graphic} 1     1     1   1
-{bzip2\_program} 1     1     1   1
-{bzip2\_source}  1     1     1   1
-{galgel}         1     1     1   1
-{swim}           1     1     1   1
-{twolf}          1     1     1   1
-{wupwise}        1     1     1   1
+{ammp}           0.702 0.698 1   1
+{applu}          0.332 0.336 1   1
+{apsi}           0.173 0.028 1   1
+{art110}         0.170 0.201 1   1
+{art470}         0.170 0.201 1   1
+{bzip2\_graphic} 0.755 0.577 1   1
+{bzip2\_program} 0.537 0.229 1   1
+{bzip2\_source}  0.625 0.459 1   1
+{galgel}         0.425 0.924 1   1
+{swim}           0.417 0.413 1   1
+{twolf}          0.039 0.049 1   1
+{wupwise}        0.667 0.651 1   1
 }\coveragetable
 \pgfplotstableread{
-test_name        dcpt  apcdc cdc pcdc 
-{ammp}           1     1     1   1
-{applu}          1     1     1   1
-{apsi}           1     1     1   1
-{art110}         1     1     1   1
-{art470}         1     1     1   1
-{bzip2\_graphic} 1     1     1   1
-{bzip2\_program} 1     1     1   1
-{bzip2\_source}  1     1     1   1
-{galgel}         1     1     1   1
-{swim}           1     1     1   1
-{twolf}          1     1     1   1
-{wupwise}        1     1     1   1
+test_name        dcpt     apcdc    cdc pcdc 
+{ammp}           13341801 19803635 1   1
+{applu}          3243298  5414227  1   1
+{apsi}           101119   16347    1   1
+{art110}         14370198 54897828 1   1
+{art470}         14370198 54897828 1   1
+{bzip2\_graphic} 87717    72885    1   1
+{bzip2\_program} 39751    23534    1   1
+{bzip2\_source}  28729    23115    1   1
+{galgel}         344166   781365   1   1
+{swim}           2333012  4918637  1   1
+{twolf}          156782   190970   1   1
+{wupwise}        691877   551276   1   1
 }\identifiedtable
 \pgfplotstableread{
-test_name        dcpt  apcdc cdc pcdc 
-{ammp}           1     1     1   1
-{applu}          1     1     1   1
-{apsi}           1     1     1   1
-{art110}         1     1     1   1
-{art470}         1     1     1   1
-{bzip2\_graphic} 1     1     1   1
-{bzip2\_program} 1     1     1   1
-{bzip2\_source}  1     1     1   1
-{galgel}         1     1     1   1
-{swim}           1     1     1   1
-{twolf}          1     1     1   1
-{wupwise}        1     1     1   1
+test_name        dcpt     apcdc     cdc pcdc 
+{ammp}           12018716 112550456 1   1
+{applu}          1160488  11423496  1   1
+{apsi}           51421    19410     1   1
+{art110}         2908765  13478208  1   1
+{art470}         2908765  13478208  1   1
+{bzip2\_graphic} 78988    168654    1   1
+{bzip2\_program} 36835    122088    1   1
+{bzip2\_source}  26851    122016    1   1
+{galgel}         212199   1408948   1   1
+{swim}           1622021  11688313  1   1
+{twolf}          122898   1174298   1   1
+{wupwise}        433846   1423433   1   1
 }\issuedtable
+
 
 \clearpage
 \begin{figure*}[H]
