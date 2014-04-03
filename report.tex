@@ -46,6 +46,34 @@ Here we mention related work. Do you want cake for your relatives?
 
 \subsection{Delta corelation prediction table}
 
+It is common for programs to access datastructures in neatly organized patterns.
+In figure \ref{fig:DCExample} values are read with delta values 1 and 9, and this pattern repeats.
+Such pattern may be exploited by prefetchers to predict what data will be read next.
+A delta correlation prediction table will identify these patterns by comparing the delta values observed on misses with the history for resent misses.
+When such patterns are found, the prefetcher will fetch the predicted cachelines into a circular buffer.
+
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
+  \caption{Delta Correlation Example}
+  \label{fig:DCExample}
+\end{figure}
+
+As can be seen, the a row in the table contains fields for the PC, last address, last prefetch, deltas 1 to n, and delta pointer.
+PC stores the address to the load instruction, and works as index in the table.
+The Last Address stores the missed address when there is a miss in the cache.
+The delta fields stores the address difference, or the deltas, for each time this instruction is called.
+Last prefetch contains the address of the last issued prefetch.
+The Delta Pointer points to the head (first Delta field) in the row, since the delta fields are used as circular buffer.
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/DCTable}
+  \caption{Delta Correlation Prediction Table}
+  \label{fig:DCTable}
+\end{figure}
+
 \subsection{Adaptive program counter delta corelation}
 
 \subsection{Program counter c-zones delta corelation}
@@ -57,34 +85,6 @@ Here we mention related work. Do you want cake for your relatives?
 
 \todo{Describe how the final prefetcher works. I suggest adding a figure. Maybe briefly mention other attempts while if we have space?}
 
-\begin{figure}[h!]
-  \centering
-      \includegraphics[width=0.5\textwidth]{Figures/DCTable}
-  \caption{Delta Correlation Prediction Table}
-  \label{fig:DCTable}
-\end{figure}
-
-Figure \ref{fig:DCTable} shows the Delta Correlation Prediction table used by the Prefetcher.
-As can be seen, the a row in the table contains fields for the PC, last address, last prefetch, deltas 1 to n, and delta pointer.
-PC stores the address to the load instruction, and works as index in the table.
-The Last Address stores the missed address when there is a miss in the cache.
-The delta fields stores the address difference, or the deltas, for each time this instruction is called.
-By using the pattern in these deltas, one may predict the next loads, and thus issue prefetches based on the pattern.
-An example would be the deltas 1, 2, 4, 1, 2, 4, ..., where 1, 2, 4, is repeated, and prefetches on addresses with these deltas in between may be issued.
-Last prefetch contains the address of the last issued prefetch.
-The Delta Pointer points to the head (first Delta field) in the row, since the delta fields are used as circular buffer.
-
-\todo{There is more to be written, and current contents is... a bit poorly written}
-
-\begin{figure}[h!]
-  \centering
-      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
-  \caption{Delta Correlation Example}
-  \label{fig:DCExample}
-\end{figure}
-
-Figure \ref{fig:DCExample} shows an example where the beginning load address is 10, with the deltas 1,9 in repeating pattern, and the addresses are 11, 20, 21, 30. 
-\todo{ Write how this will work in the DCPT table}.
 
 
 Here we describe the cake...uh, I mean the pretecher. Hey, Vance! Can you prefetch that cake?
