@@ -47,7 +47,7 @@ The stability describes how many times the delta has repeated, and is used to de
 Programs such as those that use large arrays benefit greatly from Stride Prefetching, as they usually access memory in constant repeating intervals.
 
 By storing a history of deltas instead of only the most recent, Data Correlation Prefetching is able to capture much more complex patterns than pure strides.
-Figure \ref{fig:delta_stream} shows a repeating pattern that can be captured by Delta Correlation but not with Stride Prefetching.
+Fig.~\ref{fig:delta_stream} shows a repeating pattern that can be captured by Delta Correlation but not with Stride Prefetching.
 
 \begin{figure}[!ht]
   \centering
@@ -59,7 +59,7 @@ Figure \ref{fig:delta_stream} shows a repeating pattern that can be captured by 
 \subsection{Global History Buffer}
 
 History based prefetchers need to store access patterns efficient data structure that enables quick access.
-One such data structure is the Global History Buffer (GHB) \cite{ghb} which is shown in figure \ref{fig:ghb}.
+One such data structure is the Global History Buffer (GHB) \cite{ghb} which is shown in Fig.~\ref{fig:ghb}.
 GHB is an $n$-entry First-In, First-Out (FIFO) queue implemented as a circular buffer.
 It stores the $n$ most recent L1 cache misses in entries that contain the miss address and a link pointer.
 The link pointer is used to chain entries together into time-ordered linked lists that holds the significant access patterns.
@@ -95,11 +95,11 @@ The following subsections will describe the differences between these:
 \end{figure}
 
 \todo{Rewrite this intro}
-Figure \ref{fig:CDC} shows how CZone Delta Correlation works. 
+Fig.~\ref{fig:CDC} shows how CZone Delta Correlation works. 
 The memory is divided into different concentration zones (CZones). 
 The reason behind this is that memory load patterns from different areas of the memory may be different from each other, and the idea is to calculate correct prefetch based on the CZones of the load addresses.
 The contents of the index table are based on the different CZones, and the pointer belonging to a CZone points to the latest address from that CZone that is stored in the GHB.
-Figure \ref{fig:CDC} shows an example of a CZone Delta Correlation Prefetcher that implements GHB and Delta Correlation. 
+Fig.~\ref{fig:CDC} shows an example of a CZone Delta Correlation Prefetcher that implements GHB and Delta Correlation. 
 Tag C from the index table points to address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. 
 The first two address deltas (1 and 2) from the linked list is added to the Correlation Key Register (2 and 1 in the example). 
 The list is traversed, and the Correlation Comparison Register is continuously updated with the two latest deltas. 
