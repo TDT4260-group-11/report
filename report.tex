@@ -44,9 +44,25 @@ The report will describe the framework for the project, different prefetchers th
 Here we mention related work. Do you want cake for your relatives?
 
 \subsection{Delta Correlation Prefetching}
-\todo{write something!}
+
+Stride Prefetching is based on identifying repeating memory address deltas.
+The most recent delta along with some information describing its stability is stored and used to prefetch more cache lines.
+The stability describes how many times the delta has repeated, and is used to determine how many cache lines to prefetch.
+Programs such as those that use large arrays benefit greatly from Stride Prefetching, as they usually access memory in constant reapeating intervalls.
+
+Delta Correlation Prefetching is a more advanced version of Stride Prefetching.
+By storing a history of deltas instead of only the most recent, it is able to capture much more complex patterns than pure strides.
+Figure \ref{fig:delta_stream} shows a repeating pattern that can be captured by Delta Correlation but not with Stride Prefetching.
+
+\begin{figure}[!ht]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
+  \caption{Example Delta Stream (Reprinted from \protect{\cite{ghb}}}
+  \label{fig:delta_stream}
+\end{figure}
 
 \subsection{Global History Buffer}
+
 History based prefetchers need to store access patterns efficient data structure that enables quick access.
 One such data structure is the Global History Buffer (GHB) \cite{ghb}.
 GHB is an $n$-entry First-In, First-Out (FIFO) queue implemented as a circular buffer.
@@ -58,6 +74,7 @@ The IT is based on a FIFO queue like GHB, but significantly smaller as each entr
 The key can be based on any cache miss information, and depending on it a wide variety of history based prefetch methods can be implemented.
 In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}, one using GHB gave the best performance.
 \todo{figure}
+\todo{less chance for data going stale}
 
 \section{Prefetcher Description}
 A total of 5 different prefetchers have been implemented and tested. 
@@ -101,19 +118,6 @@ The hit rate is compared with the hit rate of the previous setting, and the pref
 
 \todo{Describe how the final prefetcher works. I suggest adding a figure. Maybe briefly mention other attempts while if we have space?}
 
-It is common for programs to access datastructures in neatly organized patterns.
-In figure \ref{fig:DCExample} values are read with delta values 1 and 9, and this pattern repeats.
-Such pattern may be exploited by prefetchers to predict what data will be read next.
-A delta correlation prediction table will identify these patterns by comparing the delta values observed on misses with the history for resent misses.
-When such patterns are found, the prefetcher will fetch the predicted cachelines into a circular buffer.
-
-
-\begin{figure}[h!]
-  \centering
-      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
-  \caption{Delta Correlation Example}
-  \label{fig:DCExample}
-\end{figure}
 
 As can be seen, the a row in the table contains fields for the PC, last address, last prefetch, deltas 1 to n, and delta pointer.
 PC stores the address to the load instruction, and works as index in the table.
