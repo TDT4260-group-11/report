@@ -85,11 +85,11 @@ The following subsections will describe the differences between these:
 \begin{figure}[h!]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/CDC}
-  \caption{CZone Delta Correlation Prefetch}
+  \caption{CZone Delta Correlation Prefetch \cite{}
   \label{fig:CDC}
 \end{figure}
 
-Figure \ref{fig:CDC}\cite{ghb} shows how CZone Delta Correlation works. 
+Figure \ref{fig:CDC} shows how CZone Delta Correlation works. 
 The memory is divided into different concentration zones (CZones). 
 The reason behind this is that memory load patterns from different areas of the memory may be different from each other, and the idea is to calculate correct prefetch based on the CZones of the load addresses.
 The contents of the index table are based on the different CZones, and the pointer belonging to a CZone points to the latest address from that CZone that is stored in the GHB.
