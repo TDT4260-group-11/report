@@ -132,9 +132,37 @@ The Delta Pointer points to the head (first Delta field) in the row, since the d
 \section{Methodology}
 
 \todo{Mention the framework. Explain PFJudge. Maybe or maybe not mention C++?}
-Here we describe how we did it.
 
-WARNING: Recipee too long. Insert cake recipe here!
+
+\subsection{Simulation Framework}
+
+A modified version of M5, the open-source TCP/IP network simulator\cite{M5paper}, has been used to simulate a hierarchical memory environment for evaulation of the different prefetcher implementations.
+The modified M5 simulator is supplied as course material.
+
+The memory model simulated by the framework is based on the Alpha 21264 microprocessor, which is a superscalar processor capable of out-of-order execution through speculative execution and instruction reordering.
+
+The modified M5 user guide documents the exact architecture details:
+
+\begin{quote}
+The L1 prefetcher is split in a 32kB instruction cache, and a 64kB data cache.
+Each cache block is 64B.
+The L2 cache size is 1MB, also with a cache block size of 64B.
+The L2 prefetcher is notified on every access to the L2 cache, both hits and misses.
+There is no prefetching for the L1 cache.
+
+The memory bus runs at 400MHz, is 64 bits wide, and has a latency of 30ns.~\cite{m5userguide}
+\end{quote}
+
+To simulate a prefetcher with the modified M5 framework, the bahavior must be implemented as an M5 prefetcher module in C++ and plugged into the system.
+
+\subsection{SPEC CPU2000}
+
+To measure the performances of the different prefetchers, the prefetchers are simulated and observed during runs against a subset of the SPEC CPU2000 benchmark suite.~\cite{http://dl.acm.org/citation.cfm?id=621510}
+
+\subsection{PFJudge}
+
+PFJudge is a prefetcher judge system available through an online web interface.
+It is used in this project to run the M5-based simulations.
 
 \section{Results}
 
