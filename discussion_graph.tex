@@ -1,0 +1,37 @@
+\pgfplotstableread{
+test_name         dcpt  apcdc  cdc  pcdc  no_prefetcher
+{Average speedup} 1.1   1.1    1.1  1.1   1.0
+}\averagespeeduptable
+
+\newcommand{\ngraph}[2]{
+\begin{tikzpicture}[scale=0.5]
+\begin{axis}[
+  ybar, bar width=15pt,ymin=0,
+  xmin=0.1,xmax=4, xtick=data,
+  %axis y discontinuity=crunch,
+  %ymin=0.75,
+  xticklabels from table={#1}{test_name},
+  xticklabel style={rotate=45,anchor=north east,inner sep=0mm},
+  ylabel={\Large #2}, ylabel near ticks]
+  \addplot table [x expr=\coordindex+1,y=dcpt] {#1};
+  \addlegendentry{DCPT};
+  \addplot table [x expr=\coordindex+1,y=apcdc] {#1};
+  \addlegendentry{APCDC};
+  \addplot table [x expr=\coordindex+1,y=cdc] {#1};
+  \addlegendentry{CDC};
+  \addplot table [x expr=\coordindex+1,y=pcdc] {#1};
+  \addlegendentry{PCDC};
+  \addplot table [x expr=\coordindex+1,y=no_prefetcher] {#1};
+  \addlegendentry{No Prefetcher};
+\end{axis}
+\end{tikzpicture}
+}
+\begin{figure}[h]
+\centering
+\ngraph{\averagespeeduptable}{Average speedup}
+\end{figure}
+
+% dcpc Blast #1 http://dm-ark.idi.ntnu.no/pf/184/details/
+% apcdc APCDC#2 http://dm-ark.idi.ntnu.no/pf/166/details/
+% cdc cdc-1-16 http://dm-ark.idi.ntnu.no/pf/1442/details/
+% pcdc pcdc-2 http://dm-ark.idi.ntnu.no/pf/1447/details/
