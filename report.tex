@@ -57,7 +57,7 @@ Figure \ref{fig:delta_stream} shows a repeating pattern that can be captured by 
 \begin{figure}[!ht]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/DCExample}
-  \caption{Example Delta Stream (Reprinted from \protect{\cite{ghb}})}
+  \caption{Example Delta Stream (Reprinted from \protect{\cite{dcpt}})}
   \label{fig:delta_stream}
 \end{figure}
 
@@ -77,15 +77,17 @@ In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}
 \todo{less chance for data going stale}
 
 \section{Prefetcher Description}
+
 A total of 5 different prefetchers have been implemented and tested: CZone Delta Correlation, Adaptive CZone Delta Correlation, Program Counter Delta Correlation, Adaptive Program Counter Correlation, and Delta Correlation Prediction Table. 
 What they have in common is that they all implement Delta Correlation, and four use Global History Buffer (GHB). 
 The following subsections will describe the differences between these:
+
 \subsection{CZone Delta Correlation}
 
 \begin{figure}[h!]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/CDC}
-  \caption{CZone Delta Correlation Prefetch \cite{}
+  \caption{CZone Delta Correlation (Reprinted from \protect\cite{acdc}})
   \label{fig:CDC}
 \end{figure}
 
