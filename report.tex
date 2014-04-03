@@ -65,10 +65,6 @@ An Index Table (IT) is used to keep track of these lists.
 It maps some key to the most recent element of a linked list.
 The IT is based on a FIFO queue like GHB, but significantly smaller as each entry has to be evaluated for each cache miss to look up a matching key.
 The key can be based on any cache miss information, and depending on it a wide variety of history based prefetch methods can be implemented.
-By keeping only recent data, it is not subject to any significant amount of stale data, and is better able to capture current access patterns.
-Programs changing between several regular patterns may however not benefit from this, as one pattern might fill the whole buffer, causing information of the other to be lost.
-In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}, one using GHB gave the best performance.
-\todo{less chance for data going stale}
 
 \begin{figure}[!ht]
   \centering
@@ -77,7 +73,9 @@ In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}
   \label{fig:ghb}
 \end{figure}
 
-
+By keeping only recent data, it is not subject to any significant amount of stale data, and is better able to capture current access patterns.
+Programs changing between several regular patterns may however not benefit from this, as one pattern might fill the whole buffer, causing information of the other to be lost.
+In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}, one using GHB gave the best performance.
 
 \section{Prefetcher Description}
 
