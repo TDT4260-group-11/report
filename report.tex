@@ -44,11 +44,27 @@ The report will describe the framework for the project, different prefetchers th
 Here we mention related work. Do you want cake for your relatives?
 
 \subsection{Delta Correlation Prefetching}
-\todo{write something!}
+
+Stride Prefetching is based on identifying repeating memory address deltas.
+The most recent delta along with some information describing its stability is stored and used to prefetch more cache lines.
+The stability describes how many times the delta has repeated, and is used to determine how many cache lines to prefetch.
+Programs such as those that use large arrays benefit greatly from Stride Prefetching, as they usually access memory in constant reapeating intervalls.
+
+Delta Correlation Prefetching is a more advanced version of Stride Prefetching.
+By storing a history of deltas instead of only the most recent, it is able to capture much more complex patterns than pure strides.
+Figure \ref{fig:delta_stream} shows a repeating pattern that can be captured by Delta Correlation but not with Stride Prefetching.
+
+\begin{figure}[!ht]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
+  \caption{Example Delta Stream (Reprinted from \protect{\cite{dcpt}})}
+  \label{fig:delta_stream}
+\end{figure}
 
 \subsection{Global History Buffer}
+
 History based prefetchers need to store access patterns efficient data structure that enables quick access.
-One such data structure is the Global History Buffer (GHB) \cite{ghb}.
+One such data structure is the Global History Buffer (GHB) \cite{ghb} as shown in figure \ref{fig:ghb}.
 GHB is an $n$-entry First-In, First-Out (FIFO) queue implemented as a circular buffer.
 It stores the $n$ most recent L1 cache misses in entries that contain the miss address and a link pointer.
 The link pointer is used to chain entries together into time-ordered linked lists that holds the significant access patterns.
@@ -57,63 +73,64 @@ It maps some key to the most recent element of a linked list.
 The IT is based on a FIFO queue like GHB, but significantly smaller as each entry has to be evaluated for each cache miss to look up a matching key.
 The key can be based on any cache miss information, and depending on it a wide variety of history based prefetch methods can be implemented.
 In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}, one using GHB gave the best performance.
-\todo{figure}
+\todo{less chance for data going stale}
+
+\begin{figure}[!ht]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Figures/ghb}
+  \caption{Global History Buffer Structure (Reprinted from \protect\cite{ghb}})
+  \label{fig:ghb}
+\end{figure}
+
+
 
 \section{Prefetcher Description}
-A total of 5 different prefetchers have been implemented and tested. 
+
+A total of 5 different prefetchers have been implemented and tested: CZone Delta Correlation, Adaptive CZone Delta Correlation, Program Counter Delta Correlation, Adaptive Program Counter Correlation, and Delta Correlation Prediction Table. 
+What they have in common is that they all implement Delta Correlation, and four use Global History Buffer (GHB). 
+The following subsections will describe the differences between these:
 
 \subsection{CZone Delta Correlation}
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/CDC}
-  \caption{CZone Delta Correlation Prefetch}
+  \caption{CZone Delta Correlation (Reprinted from \protect\cite{acdc}})
   \label{fig:CDC}
 \end{figure}
 
 Figure \ref{fig:CDC} shows how CZone Delta Correlation works. 
 The memory is divided into different concentration zones (CZones). 
-The different CZones that are accessed are put into an index table, with a tag of each CZone used for indexing, and a pointer to a Global History Buffer (GHB) that contains addresses for missed loads. 
-In other types of prefetchers, these missed addresses are indexed in the GHB by the value of the PC, but in this case addresses from the same CZone are linked together using linked list, with the latest missed address entry as head. 
-In the example figure, address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. 
-The pointers from the Index Table points to these heads.
-The delta between the different addresses are calculated, and the first two from the linked list is added to the Correlation Key Register (2 and 1 in the example). 
+The reason behind this is that memory load patterns from different areas of the memory may be different from each other, and the idea is to calculate correct prefetch based on the CZones of the load addresses.
+The contents of the index table are based on the different CZones, and the pointer belonging to a CZone points to the latest address from that CZone that is stored in the GHB.
+Figure \ref{fig:CDC} shows an example of a CZone Delta Correlation Prefetcher that implements GHB and Delta Correlation. 
+Tag C from the index table points to address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. 
+The first two address deltas (1 and 2) from the linked list is added to the Correlation Key Register (2 and 1 in the example). 
 The list is traversed, and the Correlation Comparison Register is continiously uptdated with the two latest deltas. 
-Whenever there is a hit between the Comparison Registers and the Key Registers, and the distance between the current deltas and first two deltas in the linked list are not too great (max 2 in our implementation) a prefetch occurs. 
-All deltas in between are added to a Delta Buffer, and they are used to calculate addresses for prefetch, using the two first addresses in the linked list and the contents in the delta buffer. 
-The point with using CZones is that memory load patterns from different areas of the memory may be different of each other, and the idea is to calculate correct prefetch for the different memory loading patterns of the CZones.
-
-\todo{ Figure \ref{fig:CDC} is picked from the internet. Add reference? }
+When the correlation of the deltas of addresses C2-C4-C5 and C6-C8-C9  occurs, a delta buffer is filled with the deltas from the traversed list so far, and a prefetch based on the latest addresses and the deltas is issued.
+Addresses C11, C12, C13, C15 and C16 will be calculated and prefetched.
+ 
+\todo{ Write about head pointer?} \break
 
 \subsection{Adaptive CZone Delta Correlation}
-The Adaptive CZone Delta Correlation Prefetcher is a more advanced version of the prefetcher described in previous subchapter.
+This is a more advanced version of the CZone Delta Correlation Prefetcher.
 While the non-adaptive version prefetches a static number of data blocks, this one dynamically calculates how many data blocks to prefetch.
 The prefetcher increases or decreases the number of blocks to be prefetched by 1, after evaluating the hit rate.
 The hit rate is compared with the hit rate of the previous setting, and the prefetcher increases or decreases the number of blocks based on increased or decreased performance. 
 
 \subsection{Program Counter Delta Corelation}
 \todo{write something}
+A load instruction in the PC may be used several times to load data from different addresses on the memory.
+Addresses of a load instruction that misses is read from the PC and placed in the Index table, and it points to the latest missed data address connected to that specific instruction address. 
 
 \subsection{Adaptive Program Counter Delta Corelation}
 \todo{write something}
+This is a more advanced version of the Program Counter Delta Prefetcher, that calculates how many blocks to load by comparing hit rate performance on the current load number with the previous load number.
 
 \subsection{Delta Correlation Prediction Tables}
 
 \todo{Describe how the final prefetcher works. I suggest adding a figure. Maybe briefly mention other attempts while if we have space?}
 
-It is common for programs to access datastructures in neatly organized patterns.
-In figure \ref{fig:DCExample} values are read with delta values 1 and 9, and this pattern repeats.
-Such pattern may be exploited by prefetchers to predict what data will be read next.
-A delta correlation prediction table will identify these patterns by comparing the delta values observed on misses with the history for resent misses.
-When such patterns are found, the prefetcher will fetch the predicted cachelines into a circular buffer.
-
-
-\begin{figure}[h!]
-  \centering
-      \includegraphics[width=0.5\textwidth]{Figures/DCExample}
-  \caption{Delta Correlation Example}
-  \label{fig:DCExample}
-\end{figure}
 
 As can be seen, the a row in the table contains fields for the PC, last address, last prefetch, deltas 1 to n, and delta pointer.
 PC stores the address to the load instruction, and works as index in the table.
@@ -131,10 +148,39 @@ The Delta Pointer points to the head (first Delta field) in the row, since the d
 
 \section{Methodology}
 
-\todo{Mention the framework. Explain PFJudge. Maybe or maybe not mention C++?}
-Here we describe how we did it.
+\subsection{Simulation Framework}
 
-WARNING: Recipee too long. Insert cake recipe here!
+A modified version of M5, the open-source TCP/IP network simulator\cite{M5paper}, has been used to simulate a hierarchical memory environment for evaulation of the different prefetcher implementations.
+The modified M5 simulator is supplied as course material.
+
+The memory model simulated by the framework is based on the Alpha 21264 microprocessor, which is a superscalar processor capable of out-of-order execution through speculative execution and instruction reordering.
+
+The modified M5 user guide documents the exact architecture details:
+
+\begin{quote}
+The L1 prefetcher is split in a 32kB instruction cache, and a 64kB data cache.
+Each cache block is 64B.
+The L2 cache size is 1MB, also with a cache block size of 64B.
+The L2 prefetcher is notified on every access to the L2 cache, both hits and misses.
+There is no prefetching for the L1 cache.
+
+The memory bus runs at 400MHz, is 64 bits wide, and has a latency of 30ns.~\cite{m5userguide}
+\end{quote}
+
+To simulate a prefetcher with the modified M5 framework, the bahavior must be implemented as an M5 prefetcher module in C++ and plugged into the system.
+
+\subsection{SPEC CPU2000}
+
+To measure the performances of the different prefetchers, the prefetchers are simulated and observed during runs against a subset of the SPEC CPU2000 benchmark suite.~\cite{http://dl.acm.org/citation.cfm?id=621510}
+
+\subsection{PFJudge}
+
+PFJudge is a prefetcher judge system available through an online web interface.
+It is used in this project to run the M5-based simulations.
+
+\subsection{Development}
+
+\todo{explain how the prefetchers were developed.}
 
 \section{Results}
 
@@ -165,12 +211,45 @@ The cake is a lie!
 
 \section{Acknowledgements (optional)}
 
-GLaDOS
-
-yoyo \cite{assignment-text}
-
 \bibliography{bibliography}
 \bibliographystyle{plain}
 \nocite{*}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Figures/farstad.jpg}}]{Sigve Sebastian Farstad}
+    was born in Trondheim, Norway, in 1990.
+    He is currently working towards an M.S. degree in computer science from the Norwegian University of Science and Technology, Trondheim, expecting to graduate in 2015.
+
+    In 2009 he served as a civilian guardian of the Norwegian People, and he has since then worked as, amongst other things, a Software Consultant, a Technical Innovator in the mobile banking sector, a Professional Translator, and is currently working as one of the technical Co-Founders of feat.fm.
+
+    Mr. Farstad was, together with other teammembers of the demo crew Ninjadev, the winner of the Web Demo Compo at Solskogen 2012.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Figures/holmgren.jpg}}]{Rune Holmgren}
+    was born in Harstad, Norway, in 1991.
+    He is currently working towards an M.S. degree in computer science from the Norwegian University of Science and Technology, Trondheim, expecting to graduate in 2015.
+
+    He has worked as a Dairy Product Quality Assurance Intern, a Teaching Assistant for and most recently held the position of Summer Intern at Connome.
+
+    Mr. Holmgren was recipient of the award Friidrettens Venners Kretspris in 2010.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Figures/langland.jpg}}]{Torbjørn Langland}
+    was born in Trondheim, Norway, in 1987.
+    He is currently working towards an M.S. degree in computer science from the Norwegian University of Science and Technology, Trondheim, expecting to graduate in 2015.
+
+    He was worked as a Temporary Store Clerk and until recently held the title of Software Engineer at Comsol.
+
+    Mr Langland is exceptionally good at playing Mario Kart 64.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Figures/lundal.jpg}}]{Per Thomas Lundal}
+    was born in Trondheim, Norway, in 1991.
+    He is currently working towards an M.S. degree in computer science from the Norwegian University of Science and Technology, Trondheim, expecting to graduate in 2015.
+
+    He has since 2006 worked as a Sales Representative at Biltema.
+    He has also worked as a Teaching Assistant for the course Programming Languages at NTNU.
+
+    Mr. Lundal was the recipient of the Champions' Award and the Programming Award at the First Lego League, Trondheim.
+\end{IEEEbiography}
 
 \end{document}
