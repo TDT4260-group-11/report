@@ -72,7 +72,17 @@ In this section, CZone Delta Correlation will be explained.
   \label{fig:CDC}
 \end{figure}
 
-Figure \ref{fig:CDC} shows how CZone Delta Correlation works. The memory is divided into different concentration zones (CZones). The different CZones that are accessed are put into an index table, with a tag of each CZone used for indexing, and a pointer to a Global History Buffer (GHB) that contains addresses for missed loads. In other types of prefetchers, these missed addresses are indexed in the GHB by the value of the PC, but in this case addresses from the same CZone are linked together using linked list, with the latest missed address entry as head. In the example figure, address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. The pointers from the Index Table points to these heads. The delta between the different addresses are calculated, and the first two from the linked list is added to the Correlation Key Register (2 and 1 in the example). The list is traversed, and the Correlation Comparison Register is continiously uptdated with the two latest deltas. Whenever there is a hit between the Comparison Registers and the Key Registers, and the distance between the current deltas and first two deltas in the linked list are not too great (max 4)\todo{ Per, hva brukte du?} a prefetch occurs. All deltas in between are added to a Delta Buffer, and they are used to calculate addresses for prefetch, using the two first addresses in the linked list and the contents in the delta buffer. \todo{ Correct? }. 
+Figure \ref{fig:CDC} shows how CZone Delta Correlation works. 
+The memory is divided into different concentration zones (CZones). 
+The different CZones that are accessed are put into an index table, with a tag of each CZone used for indexing, and a pointer to a Global History Buffer (GHB) that contains addresses for missed loads. 
+In other types of prefetchers, these missed addresses are indexed in the GHB by the value of the PC, but in this case addresses from the same CZone are linked together using linked list, with the latest missed address entry as head. 
+In the example figure, address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. 
+The pointers from the Index Table points to these heads.
+The delta between the different addresses are calculated, and the first two from the linked list is added to the Correlation Key Register (2 and 1 in the example). 
+The list is traversed, and the Correlation Comparison Register is continiously uptdated with the two latest deltas. 
+Whenever there is a hit between the Comparison Registers and the Key Registers, and the distance between the current deltas and first two deltas in the linked list are not too great (max 4)\todo{ Per, hva brukte du?} a prefetch occurs. 
+All deltas in between are added to a Delta Buffer, and they are used to calculate addresses for prefetch, using the two first addresses in the linked list and the contents in the delta buffer. \todo{ Correct? }. 
+The point with using CZones is that memory load patterns from different areas of the memory may be different of each other. 
 
 \todo{ Figure \ref{fig:CDC} is picked from the internet. Add reference? }
 
