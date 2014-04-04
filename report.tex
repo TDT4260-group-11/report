@@ -85,6 +85,7 @@ In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}
 
 \section{Prefetcher Description}
 
+\todo{Rewrite this}
 A total of 5 different prefetchers have been implemented and tested: CZone Delta Correlation, Adaptive CZone Delta Correlation, Program Counter Delta Correlation, Adaptive Program Counter Correlation, and Delta Correlation Prediction Table. 
 What they have in common is that they all implement Delta Correlation, and four use Global History Buffer (GHB). 
 The following subsections will describe the differences between these:
@@ -102,29 +103,32 @@ The concept of concentration zones (CZones) is based on the assumption that acce
 It works by dividing the memory into different regions, each assigned its own tag (most significant bits of the memory address).
 Memory access patterns are then traced within these regions using Delta Correlation to determine prefetch candidates.
 
-Fig.~\ref{fig:CDC} shows an example of a CZone Delta Correlation Prefetcher that is implemented using GHB. 
+Fig.~\ref{fig:CDC} shows an example of a CZone Delta Correlation (CDC) Prefetcher that is implemented using GHB. 
 Tag C from the index table points to address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. 
 The first two address deltas (1 and 2) from the linked list is added to the Correlation Key Register (2 and 1 in the example). 
 The list is traversed, and the Correlation Comparison Register is continuously updated with the two latest deltas. 
 When the correlation of the deltas of addresses C2-C4-C5 and C6-C8-C9  occurs, a delta buffer is filled with the deltas from the traversed list so far, and a prefetch based on the latest addresses and the deltas is issued.
 Addresses C11, C12, C13, C15 and C16 will be calculated and prefetched.
- 
-\todo{ Write about head pointer?} \break
 
-\subsection{Adaptive CZone Delta Correlation}
+\subsection{Program Counter Delta Correlation}
+
+Program Counter Delta Correlation (PCDC) works in a similar way to CDC.
+It uses the same data structures and correlation techniques, but differs in one key aspect; the IT key.
+While CDC is based on the assumption that a program exhihibits repeating access patterns within different sections of the memory, PCDC is based on the assumption that a load instruction exhibit repeating memory access patterns.
+This is implemented by using the Program Counter (PC) of the load instruction as IT key instead of the memory region tag.
+
+\todo{more!}
+
+\subsection{Adaptive Program Counter Delta Correlation}
+
+\todo{write something}
+This is a more advanced version of the Program Counter Delta Prefetcher, that calculates how many blocks to load by comparing hit rate performance on the current load number with the previous load number.
+
+\todo{This is old ACDC}
 This is a more advanced version of the CZone Delta Correlation Prefetcher.
 While the non-adaptive version prefetches a static number of data blocks, this one dynamically calculates how many data blocks to prefetch.
 The prefetcher increases or decreases the number of blocks to be prefetched by 1, after evaluating the hit rate.
 The hit rate is compared with the hit rate of the previous setting, and the prefetcher increases or decreases the number of blocks based on increased or decreased performance. 
-
-\subsection{Program Counter Delta Correlation}
-\todo{write something}
-A load instruction in the PC may be used several times to load data from different addresses on the memory.
-Addresses of a load instruction that misses is read from the PC and placed in the Index table, and it points to the latest missed data address connected to that specific instruction address. 
-
-\subsection{Adaptive Program Counter Delta Correlation}
-\todo{write something}
-This is a more advanced version of the Program Counter Delta Prefetcher, that calculates how many blocks to load by comparing hit rate performance on the current load number with the previous load number.
 
 \subsection{Delta Correlation Prediction Tables}
 
