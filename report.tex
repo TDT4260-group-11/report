@@ -92,16 +92,16 @@ The following subsections will describe the differences between these:
 
 \subsection{CZone Delta Correlation}
 
+The concept of concentration zones (CZones) is based on the assumption that access within a data structure is fairly regular and that similar data structures lie within close proximity of each other in memory.
+It works by dividing the memory into different regions, each assigned its own tag (most significant bits of the memory address).
+Memory access patterns are then traced within these regions using Delta Correlation to determine prefetch candidates.
+
 \begin{figure}[!ht]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/CDC}
   \caption{CZone Delta Correlation (Reprinted from \protect\cite{acdc})}
   \label{fig:CDC}
 \end{figure}
-
-The concept of concentration zones (CZones) is based on the assumption that access within a data structure is fairly regular and that similar data structures lie within close proximity of each other in memory.
-It works by dividing the memory into different regions, each assigned its own tag (most significant bits of the memory address).
-Memory access patterns are then traced within these regions using Delta Correlation to determine prefetch candidates.
 
 Fig.~\ref{fig:CDC} shows an example of a CZone Delta Correlation (CDC) Prefetcher that is implemented using GHB. 
 Tag C from the index table points to address C09 from CZone C is the head, and is linked to C08,  which again is linked to C06, etc. 
