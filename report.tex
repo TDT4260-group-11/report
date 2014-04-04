@@ -147,6 +147,7 @@ Each entry contains  a field for the Program Counter (PC) identifying the instru
 Short deltas are more common than long deltas in many programs.
 This means that they often can be represented with very few bits while still capturing the patterns adequatly.
 Since GHB must store the whole memory address and a link pointer at each access, while DCPT only stores a delta that may be a fraction of the size, this allows for more information to be stored in the same amount of space.
+Additionally the deltas can be extracted directly without extra computation.
 
 \section{Methodology}
 
@@ -219,6 +220,8 @@ Experimentally, the best settings for CDC was found to be a issue rate of 1 and 
 For PCDC the best issue rate was found to be 2, while for DCPT it was 3.
 APCDC dynamicly adjusts the issue rate but has a maximum of 4.
 Calibration is run in intervalls of 2048 cache misses, unless the best issue rate is determined to be the previous issue rate, in case it is extended to 16384 cache misses.
+The IT size was 512 entries and GHB size was 1024 entries for all prefetchers using them, while DCPT table size was 180 entries containing 16 deltas of 16 bits each.
+This results in no prefetcher using more than 8KB of memory for a hardware implementation, although the C program might reserve more to align values to words for increased execution speed.
 Only the best of each kind has been taken into account in the comparison.
 
 \section{Results}
@@ -235,9 +238,9 @@ Where the other prefetchers have scored around 0.8 accuracy, which is quite good
 To have a prefetcher which is vulnerable to extremely poor performance in some secenarios is a bad idea, as it is at best inefficient, and at worst downright dangerous.
 CDC is the only one of the tested prefetchers that have exhibited this kind of behavior.
 
-\input{discussion_graph.tex}
-
 \input{graphs.tex}
+
+\input{discussion_graph.tex}
 
 Other than the extreme discrepancy in the CDC \texttt{amms} test, there are not a lot of big differences.
 Some tests favor one pretching scheme, while other tests favor another.
