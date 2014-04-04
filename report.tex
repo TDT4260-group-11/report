@@ -147,6 +147,7 @@ Each entry contains  a field for the Program Counter (PC) identifying the instru
 Short deltas are more common than long deltas in many programs.
 This means that they often can be represented with very few bits while still capturing the patterns adequatly.
 Since GHB must store the whole memory address and a link pointer at each access, while DCPT only stores a delta that may be a fraction of the size, this allows for more information to be stored in the same amount of space.
+Additionally the deltas can be extracted directly without extra computation.
 
 \section{Methodology}
 
