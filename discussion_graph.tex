@@ -1,6 +1,6 @@
 \pgfplotstableread{
-test_name         dcpt  apcdc  cdc  pcdc  no_prefetcher
-{Average speedup} 1.1   1.1    1.1  1.1   1.0
+test_name  dcpt   apcdc pcdc  cdc   no_prefetcher
+{}         1.0841 1.083 1.071 0.989 1.0
 }\averagespeeduptable
 
 \newcommand{\ngraph}[2]{
@@ -8,8 +8,8 @@ test_name         dcpt  apcdc  cdc  pcdc  no_prefetcher
 \begin{axis}[
   ybar, bar width=15pt,ymin=0,
   xmin=0.1,xmax=4, xtick=data,
-  %axis y discontinuity=crunch,
-  %ymin=0.75,
+  axis y discontinuity=crunch,
+  ymin=0.9,
   xticklabels from table={#1}{test_name},
   xticklabel style={rotate=45,anchor=north east,inner sep=0mm},
   ylabel={\Large #2}, ylabel near ticks]
@@ -26,9 +26,11 @@ test_name         dcpt  apcdc  cdc  pcdc  no_prefetcher
 \end{axis}
 \end{tikzpicture}
 }
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \ngraph{\averagespeeduptable}{Average speedup}
+\caption{Average speedup}
+\label{fig:speedup}
 \end{figure}
 
 % dcpc Blast #1 http://dm-ark.idi.ntnu.no/pf/184/details/
