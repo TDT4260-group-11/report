@@ -123,14 +123,15 @@ Programs where instructions repeat their access patterns within multiple memory 
 
 \subsection{Adaptive Program Counter Delta Correlation}
 
-\todo{write something}
-This is a more advanced version of the Program Counter Delta Prefetcher, that calculates how many blocks to load by comparing hit rate performance on the current load number with the previous load number.
+Different programs may respond differently to certain prefetching schemes, for some programs the response will be beneficial while negative for others due to trashing.
+Thrashing is the term used to describe the effect of prefetching high amounts of unneeded cache lines, which requires eviction of those already in the cache that might be in frequent use.
 
-\todo{This is old ACDC}
-This is a more advanced version of the CZone Delta Correlation Prefetcher.
-While the non-adaptive version prefetches a static number of data blocks, this one dynamically calculates how many data blocks to prefetch.
-The prefetcher increases or decreases the number of blocks to be prefetched by 1, after evaluating the hit rate.
-The hit rate is compared with the hit rate of the previous setting, and the prefetcher increases or decreases the number of blocks based on increased or decreased performance. 
+The ability for a prefetcher to adapt to the programs' responses is greatly increases its potential.
+When programs respond beneficialy, the prefetcher can increase its issue rate, while decreasing it or turning off prefetching all togethers when programs respond negatively.
+
+Adaptivity is implemented by continuously recording and analysing the L2 cache hit rate, while the prefetcher experimentally evaluates different issue rates.
+The best issue rate is then selected for a certain interval before the evaluation process is repeated.
+This can be further improved by evaluating only the closest issue rate steps each time.
 
 \subsection{Delta Correlation Prediction Tables}
 
