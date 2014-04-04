@@ -114,8 +114,10 @@ Addresses C11, C12, C13, C15 and C16 will be calculated and prefetched.
 
 Program Counter Delta Correlation (PCDC) works in a similar way to CDC.
 It uses the same data structures and correlation techniques, but differs in one key aspect; the IT key.
-While CDC is based on the assumption that a program exhihibits repeating access patterns within different sections of the memory, PCDC is based on the assumption that a load instruction exhibit repeating memory access patterns.
-This is implemented by using the Program Counter (PC) of the load instruction as IT key instead of the memory region tag.
+While CDC is based on the assumption that a program exhibits repeating access patterns within different sections of the memory, PCDC is based on the assumption that each load instruction exhibit repeating memory access patterns.
+It is implemented by using the Program Counter (PC) of the load instruction as IT key instead of the memory region tag.
+
+Programs where instructions repeat their access patterns within multiple memory regions, or where multiple instructions access different data structures within a single region interchangedly may benefit greatly from PCDC.
 
 \todo{more!}
 
