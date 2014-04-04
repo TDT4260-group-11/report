@@ -244,7 +244,15 @@ Some tests favor one pretching scheme, while other tests favor another.
 Overall, DCPT scores best on average with APCDC and PCDC on close second and third, as seen in Fig.~\ref{fig:speedup}.
 Which one should be chosen over the other for use in a given real life application, however, largely depends on the characteristics of the application.
 
-\todo{ Mention what could have been done better or different? Future ideas? }
+
+There is potential for further analasys of this field.
+In addition to the implemented prefetchers, there are many existing prefetching schemes with good characteristics for spesific tasks.
+In addition, it would be worthwhile to analyze the performance of different prefetching schemes for different sizes of chaches, as well as sizes of cache lines.
+Increased cache size will with todays hardware result in slower response times.
+Larger cache lines will give room for fewer cache lines, but each line will contain more data.
+Both cache size and cache line size have gains and tradeoffs.
+It is interesting to analyse prefetching schemes with regards to these parameters.
+Some prefetchers might perform better with different paramters, and to find the optimal values for them it would be necessary to perform further analysis.
 
 \section{Conclusion}
 
@@ -283,7 +291,6 @@ Looking at the average speedup though, DCPT emerges as the most performant schem
 
     He was worked as a Temporary Store Clerk and until recently held the title of Software Engineer at Comsol.
 
-    Mr Langland is exceptionally good at playing Mario Kart 64.
 \end{IEEEbiography}
 
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{Figures/lundal.jpg}}]{Per Thomas Lundal}
