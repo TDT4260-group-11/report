@@ -85,10 +85,9 @@ In a comparison of different prefetch mechanisms by Péres et al.\cite{microlib}
 
 \section{Prefetcher Description}
 
-\todo{Rewrite this}
-A total of 5 different prefetchers have been implemented and tested: CZone Delta Correlation, Adaptive CZone Delta Correlation, Program Counter Delta Correlation, Adaptive Program Counter Correlation, and Delta Correlation Prediction Table. 
-What they have in common is that they all implement Delta Correlation, and four use Global History Buffer (GHB). 
-The following subsections will describe the differences between these:
+Four different prefetchers are decribed in this section: CZone Delta Correlation, Program Counter Delta Correlation, Adaptive Program Counter Correlation and Delta Correlation Prediction Tables. 
+All of the prefetchers are based on the common principle of Delta Correlation to detect memory access patterns, while three out of four use Global History Buffers for data storage.
+Additionally all except one use the Program Counter of the load instruction at Index Table key.
 
 \subsection{CZone Delta Correlation}
 
@@ -119,8 +118,6 @@ It is implemented by using the Program Counter (PC) of the load instruction as I
 
 Programs where instructions repeat their access patterns within multiple memory regions, or where multiple instructions access different data structures within a single region interchangedly may benefit greatly from PCDC.
 
-\todo{more!}
-
 \subsection{Adaptive Program Counter Delta Correlation}
 
 Different programs may respond differently to certain prefetching schemes, for some programs the response will be beneficial while negative for others due to trashing.
@@ -135,22 +132,21 @@ This can be further improved by evaluating only the closest issue rate steps eac
 
 \subsection{Delta Correlation Prediction Tables}
 
-\todo{Describe how the final prefetcher works. I suggest adding a figure. Maybe briefly mention other attempts while if we have space?}
-
-
-As can be seen, a row in the table contains fields for the PC, last address, last prefetch, deltas 1 to $ n $, and delta pointer.
-PC stores the address to the load instruction, and works as index in the table.
-The Last Address stores the missed address when there is a miss in the cache.
-The delta fields stores the address difference, or the deltas, for each time this instruction is called.
-Last prefetch contains the address of the last issued prefetch.
-The Delta Pointer points to the head (first Delta field) in the row, since the delta fields are used as circular buffer.
+Delta Correlation Prediction Tables (DCPT) can be seen as a slight variation of PCDC.
+It was developed by Grannaes et al. \cite{dcpt} to reduce the amount of memory required to store delta information.
+Instead of using a GHB to record the history, DCPT makes use of a table containing entries as seen in Fig.~\ref{fig:dcpt}.
+Each entry contains  a field for the Program Counter (PC) identifying the instruction, the most recent memory address, the most recently prefetched address, and $n$ deltas in a circular buffer.
 
 \begin{figure}[h!]
   \centering
       \includegraphics[width=0.5\textwidth]{Figures/DCTable}
-  \caption{Delta Correlation Prediction Table Entry (Reprinted from \protect\cite{dcpt})}
-  \label{fig:DCTable}
+  \caption{Delta Correlation Prediction Table (Reprinted from \protect\cite{dcpt})}
+  \label{fig:dcpt}
 \end{figure}
+
+Short deltas are more common than long deltas in many programs.
+This means that they often can be represented with very few bits while still capturing the patterns adequatly.
+Since GHB must store the whole memory address and a link pointer at each access, while DCPT only stores a delta that may be a fraction of the size, this allows for more information to be stored in the same amount of space.
 
 \section{Methodology}
 
@@ -239,24 +235,24 @@ Where the other prefetchers have scored around 0.8 accuracy, which is quite good
 To have a prefetcher which is vulnerable to extremely poor performance in some secenarios is a bad idea, as it is at best inefficient, and at worst downright dangerous.
 CDC is the only one of the tested prefetchers that have exhibited this kind of behavior.
 
-Other than the extreme discrepancy in the CDC \texttt{amms} test, there are not a lot of big differences.
-Some tests favor one pretching scheme, while other tests favor another.
-Overall, DCPT scores best on average with APCDC a close second.
-Which one should be chosen over the other for use in a given real life application, however, largely depends on the characteristics of the application.
-
 \input{discussion_graph.tex}
 
 \input{graphs.tex}
 
-\section{Conclusion}
+Other than the extreme discrepancy in the CDC \texttt{amms} test, there are not a lot of big differences.
+Some tests favor one pretching scheme, while other tests favor another.
+Overall, DCPT scores best on average with APCDC and PCDC on close second and third, as seen in Fig.~\ref{fig:speedup}.
+Which one should be chosen over the other for use in a given real life application, however, largely depends on the characteristics of the application.
 
 \todo{ Mention what could have been done better or different? Future ideas? }
 
+\section{Conclusion}
+
 In conclusion, while Delta Correlation based prefetching approaches are promising in general, there are some significant differences between the prefetching schemes tested.
-The differences, however, are not uniformly in favor of a single prefetching scheme.
+The differences are however not uniformly in favor of a single prefetching scheme.
 The benchmarks rather favor different schemes for different tests.
 
-Looking at the average speedup, though, DCPT emerges as the most performant scheme, while CDC is the least performant scheme.
+Looking at the average speedup though, DCPT emerges as the most performant scheme, closely followed by APCDC and PCDC, while CDC is the least performant scheme.
 
 
 \bibliography{bibliography}
