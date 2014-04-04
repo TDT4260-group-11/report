@@ -213,10 +213,17 @@ It is used in this project to run the M5-based simulations.
 
 \subsection{Development}
 
-\todo{explain how the prefetchers were developed.}
+The prefechers were developed in C using the M5 framework.
+CDC and PCDC were developed as one prefetcher with a switch for toggling between the two modes, while APCDC implements an additional calibration function.
+When a correlation is found, exactly the issue rate number of blocks are issued.
+DCPT is based on the same prefetcher, but with GHB swapped out with DCPT.
+It has no calibration function.
 
-The prefechers were developed in C for the 
-
+Experimentally, the best settings for CDC was found to be a issue rate of 1 and a tag size of 16 bits.
+For PCDC the best issue rate was found to be 2, while for DCPT it was 3.
+APCDC dynamicly adjusts the issue rate but has a maximum of 4.
+Calibration is run in intervalls of 2048 cache misses, unless the best issue rate is determined to be the previous issue rate, in case it is extended to 16384 cache misses.
+Only the best of each kind has been taken into account in the comparison.
 
 \section{Results}
 
